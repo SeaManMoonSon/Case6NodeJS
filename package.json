@@ -1,0 +1,30 @@
+{
+  "name": "case6nodejs",
+  "version": "1.0.0",
+  "description": "Calendar",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devStart": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeaManMoonSon/Case6NodeJS.git"
+  },
+  "author": "SeaManMoonSon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SeaManMoonSon/Case6NodeJS/issues"
+  },
+  "homepage": "https://github.com/SeaManMoonSon/Case6NodeJS#readme",
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "ejs": "^3.1.7",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}

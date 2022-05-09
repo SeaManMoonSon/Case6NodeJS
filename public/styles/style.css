@@ -1,0 +1,37 @@
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background-color: cadetblue;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+main img {
+  max-width: 480px;
+  width: 100%;
+}
+
+header {
+  background-color: darkred;
+  color: white;
+  position: relative;
+}
+
+footer {
+  background-color: darkred;
+  color: white;
+}
+
+header img {
+  width: 100%;
+  height: auto;
+}
+
+nav a.active {
+  background-color: yellow;
+}
+/*# sourceMappingURL=style.css.map */
