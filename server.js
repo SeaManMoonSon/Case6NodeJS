@@ -1,7 +1,6 @@
 // Dependencies
 import express from "express"
 import ejs from "ejs"
-import chalk from "chalk"
 
 // Enviroment
 const app = express();
@@ -12,21 +11,33 @@ const port = 5000;
 // Template engine
 app.set('view enginge', 'ejs');
 
-// Set static file
-app.use(express.static('public'));
-
-app.get('*', (req, res, next) => {
+// Route request
+app.get('/', (req, res) => {
     res.render('index.ejs');
 });
 
+// Set static file
+app.use(express.static('public'));
 
-// ----------------- CONSOLE LOGS ---------------------------------
+// 404 not found
+app.get('*', (req, res, next) => {
+    res.render('404');
+});
 
-console.log(chalk.blue("test"));
+// server error 500
+app.use((err, req, res, next) => {
 
-// ----------------------------------------------------------------
+    // show response
+    return res.status(500).send("Server error, please return later");
+});
 
 // Server starts
 app.listen(port, () => {
-    console.log(chalk.blue(`Server running on port ${port}`));
+    console.log(`Server running on port ${port}`);
 });
+
+// ----------------- CONSOLE LOGS ---------------------------------
+
+console.log("test");
+
+// ----------------------------------------------------------------

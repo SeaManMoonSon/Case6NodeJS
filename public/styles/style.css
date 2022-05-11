@@ -10,28 +10,89 @@ body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+main {
+  height: 800px;
+}
+
 main img {
   max-width: 480px;
   width: 100%;
 }
 
 header {
-  background-color: darkred;
+  background-color: #1c1c1c;
   color: white;
   position: relative;
 }
 
 footer {
-  background-color: darkred;
+  background-color: #1c1c1c;
   color: white;
 }
 
-header img {
-  width: 100%;
-  height: auto;
+ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+li {
+  list-style: none;
+  margin: 1rem;
 }
 
 nav a.active {
   background-color: yellow;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  background-color: deeppink;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.day-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+  width: 90%;
+  max-height: 100%;
+  background-color: #ffff;
+  border: 2px solid #1c1c1c;
+  margin: 5px;
+}
+
+.event-card {
+  width: 60%;
+  background-color: yellow;
+}
+
+.active {
+  background-color: gray;
+  height: 200px;
 }
 /*# sourceMappingURL=style.css.map */
