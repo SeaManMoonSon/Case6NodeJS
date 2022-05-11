@@ -1,35 +1,33 @@
 // Dependencies
-import express from "express"
-import ejs from "ejs"
+import express from "express";
+import ejs from "ejs";
 
-// Enviroment
+import eventModel from "./models/eventModel.js";
+import eventController from "./controllers/eventController.js";
+
+
 const app = express();
-
-// Variables
 const port = 5000;
 
-// Template engine
-app.set('view enginge', 'ejs');
-
-// Route request
-app.get('/', (req, res) => {
-    res.render('index.ejs');
-});
-
-// Set static file
+// Set static folder
 app.use(express.static('public'));
 
-// 404 not found
-app.get('*', (req, res, next) => {
-    res.render('404');
-});
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
 
-// server error 500
-app.use((err, req, res, next) => {
+// Route request
+app.get('/', eventController.getAllEvents);
+app.get('/events', eventController.getAllEvents);
 
-    // show response
-    return res.status(500).send("Server error, please return later");
-});
+// // 404 not found
+// app.get('*', (req, res, next) => res.render('404.ejs'));
+
+// // server error 500
+// app.use((err, req, res, next) => {
+
+//     // show response
+//     return res.status(500).send("Server error, please return later");
+// });
 
 // Server starts
 app.listen(port, () => {
@@ -38,6 +36,7 @@ app.listen(port, () => {
 
 // ----------------- CONSOLE LOGS ---------------------------------
 
-console.log("test");
+console.log(eventModel.readEvents());
+console.log(eventModel.getEvent(2), eventModel.getEvent(3).day);
 
 // ----------------------------------------------------------------

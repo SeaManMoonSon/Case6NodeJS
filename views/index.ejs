@@ -7,6 +7,8 @@
     <title>Start</title>
 
     <link rel="stylesheet" href="styles/style.css">
+    <!-- FIX FOR FAVICON.ICO -->
+    <link rel="shortcut icon" href="#">
 </head>
 <body>
     <!-- Header -->
@@ -16,56 +18,24 @@
     <main>
         <h1>Hello</h1>
 
+        <p><% database[1] %> </p>
+
+        <form action="/index" method="post">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title">
+            <label for="desc">Description</label>
+            <input type="text" name="desc" id="desc">
+            <button type="submit">Create</button>
+        </form>
+
+
         <div class="container">
             <div class="wrapper">
-                <ul class="day-card">
+                <ul class="day-card active">
                     <p>Mon</p>
-                    <li class="event-card">
+                    <li class="event-card active">
                         <p>2 events, click to see more</p>
                     </li>
-                </ul>
-                <ul class="day-card">
-                    <p>Tue</p>
-                    <li class="event-card">
-                        <p>1 event, click to see more</p>
-                    </li>
-                </ul>
-                <ul class="day-card active">
-                    <p>Wed</p>
-                    <li class="event-card">
-                        <p>event</p>
-                    </li>
-                    <li class="event-card">
-                        <p>event</p>
-                    </li>
-                    <li class="event-card">
-                        <p>event</p>
-                    </li>
-                </ul>
-                <ul class="day-card">
-                    <p>Thu</p>
-                    <li class="event-card">
-                        <p>No events</p>
-                    </li>
-                </ul>
-                <ul class="day-card">
-                    <p>Fri</p>
-                    <li class="event-card">
-                        <p>3 events, click to see more</p>
-                    </li>
-                </ul>
-                <ul class="day-card">
-                    <p>Sat</p>
-                    <li class="event-card">
-                        <p>1 event, click to see more</p>
-                    </li>
-                </ul>
-                <ul class="day-card">
-                    <p>Sun</p>
-                    <li class="event-card">
-                        <p>No events</p>
-                    </li>
-                </ul>
             </div>
         </div>
     </main>
