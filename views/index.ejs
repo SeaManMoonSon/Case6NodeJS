@@ -18,13 +18,17 @@
     <main>
         <h1>Hello</h1>
 
-        <p><% database[1] %> </p>
+        <p>
+            <% locals.events.forEach(ele => { %>
+                <%- ele.title %> <%- ele.date %>
+            <% }) %>
+        </p>
 
-        <form action="/index" method="post">
+        <form action="/" method="post">
             <label for="title">Title</label>
             <input type="text" name="title" id="title">
             <label for="desc">Description</label>
-            <input type="text" name="desc" id="desc">
+            <input type="text" name="date" id="date">
             <button type="submit">Create</button>
         </form>
 
@@ -32,9 +36,9 @@
         <div class="container">
             <div class="wrapper">
                 <ul class="day-card active">
-                    <p>Mon</p>
+                    <p> title placeholder </p>
                     <li class="event-card active">
-                        <p>2 events, click to see more</p>
+                        <p class="testing">date placeholder</p>
                     </li>
             </div>
         </div>

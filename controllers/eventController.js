@@ -5,13 +5,20 @@ import eventModel from "../models/eventModel.js";
 export default {
     createEvent: (req, res) => {
         const title = req.body.title;
-        const desc = req.body.desc;
+        const date = req.body.date;
 
-        console.log(title, desc);
+        console.log(title, date);
 
-        res.render("events", { events: eventModel.readEvents() });
+        const check = eventModel.addEvent(title, date);
+
+        if (!check) {
+            res.render("404", { message: "Could not save" });
+            return;
+        }
+
+        res.render("index", { events: eventModel.readEvents() });
     },
     getAllEvents: (req,res) => {
-        res.render("events", { events: eventModel.readEvents() });
+        res.render("index", { events: eventModel.readEvents() });
     }
 }

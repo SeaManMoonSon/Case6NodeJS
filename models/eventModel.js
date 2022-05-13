@@ -12,12 +12,12 @@ const eventModel = {
     saveEvent: function(events) {
         return fs.writeFileSync(database, JSON.stringify(events));
     },
-    addEvent: function(title, desc) {
+    addEvent: function(title, date) {
         const allEvents = this.readEvents();
         const lastEvent = allEvents[allEvents.length - 1];
         const newId = (lastEvent?.id || 0) + 1;
 
-        const newEvent = {id: newId, title, desc};
+        const newEvent = {id: newId, title, date};
 
         allEvents.push(newEvent);
 
