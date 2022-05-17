@@ -11,15 +11,19 @@ const port = 5000;
 // Set static folder
 app.use(express.static('public'));
 
+// Set view engine
 app.set('view engine', 'ejs');
+
+// Handle form post
 app.use(express.urlencoded({ extended: true }));
 
 // Route request
-app.get('/', eventController.getAllEvents);
-app.get('/index', eventController.getAllEvents);
+app.get('/', eventController.getAll);
 
+app.put('/events/:id', eventController.updateEvent);
 
-app.post('/', eventController.createEvent);
+app.get('/index', eventController.getAll);
+app.post('/index', eventController.createEvent);
 
 // 404 not found
 app.get('*', (req, res, next) => res.render('404.ejs'));

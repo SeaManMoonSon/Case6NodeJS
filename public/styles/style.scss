@@ -77,3 +77,21 @@ nav a.active {
     height: 200px;
 }
 
+#testBox {
+    background-color: gray;
+    border: 3px solid yellow;
+    color: white;
+    max-height: 100%;
+}
+
+.testing {
+    height: 200px;
+    width: 100%;
+    background-color: red;
+}
+
+.eventDiv {
+    max-height: 100%;
+    max-width: fit-content;
+    background-color: blue;
+}
