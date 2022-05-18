@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start</title>
+    <title>My calendar</title>
 
     <link rel="stylesheet" href="styles/style.css">
     <!-- FIX FOR FAVICON.ICO -->
@@ -18,51 +18,30 @@
 
 
     <main>
-        <h1>Hello</h1>
+        <h1>Week</h1>
+
+        <form action="/index" method="post">
+            <label for="title">Title</label><br>
+            <input type="text" name="title" id="title"><br>
+            <label for="time">Time</label><br>
+            <input type="time" name="time" id="time">Time<br>
+            <button type="submit">Create</button>
+        </form>
+
 
         <div id="testBox">
             <% locals.events.forEach(ele => { %>
 
             <div class="eventDiv">
-                <span class="event-title"><%- ele.title %></span>
-                <span class="event-date"><%- ele.date %></span>
+                <p class="event-title"><%- ele.title %></p>
+                <p class="event-time"><%- ele.time %></p>
                 <button class="edit-button" data-id="<%= ele.id %>">Edit</button>
-                
+                <button onclick="deleteEvent(<%= ele.id %>)">Delete</button>
             </div>
 
             <% }); %>
         </div>
 
-        <form action="/index" method="post">
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title">
-            <label for="date">Date</label>
-            <input type="text" name="date" id="date">
-            <button type="submit">Create</button>
-        </form>
-
-        <div class="container">
-            <div class="wrapper">
-
-                <ul class="day-card">
-                    <h2>MONDAY</h2>
-                    <p> title placeholder </p>
-                    <li class="event-card">
-                        <p class="testtest">date placeholder</p>
-                    </li>
-                    <button type="submit">Add event</button>
-
-                </ul>
-                <ul class="day-card active">
-                    <h2>TUESDAY</h2>
-                    <p> title placeholder </p>
-                    <li class="event-card">
-                        <p class="testtest">date placeholder</p>
-                    </li>
-                </ul>
-
-            </div>
-        </div>
     </main>
 
     <!-- Footer -->
@@ -76,11 +55,34 @@
     </script> -->
 
     <script>
-        async function deleteEvent(id) {
-            console.log("delete test");
+
+        // Creating array for every day in week
+        const week = {
+            days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        };
+
+        // Making a varibel for each day in the array
+        for (let i = 0; i < week.days.length; i++) {
+            const days = week.days[i];
+
+            // Creating a bubble for each day
+            let dayBubble = document.createElement("div");
+            dayBubble.classList.add("hejhej");
+            dayBubble.textContent = days;
+
+            const box = document.getElementById("testBox");
+            box.appendChild(dayBubble);
         }
 
 
+        async function deleteEvent(id) {
+            console.log("delete test", id);
+            const response = await fetch(`/index/${id}`, {method: "delete"});
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+        }
 
         async function editEvent(evt) {
         // const id = Number(evt.target.dataset.id); // data-id -> dataset.id

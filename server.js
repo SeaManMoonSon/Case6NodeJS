@@ -20,10 +20,12 @@ app.use(express.urlencoded({ extended: true }));
 // Route request
 app.get('/', eventController.getAll);
 
-app.put('/events/:id', eventController.updateEvent);
+// app.put('/events/:id', eventController.updateEvent);
 
 app.get('/index', eventController.getAll);
 app.post('/index', eventController.createEvent);
+
+app.delete('/index/:id', eventController.deleteEvent);
 
 // 404 not found
 app.get('*', (req, res, next) => res.render('404.ejs'));
@@ -39,10 +41,3 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-
-// ----------------- CONSOLE LOGS ---------------------------------
-
-// console.log(eventModel.readEvents());
-// console.log(eventModel.getEvent(2), eventModel.getEvent(3).events[0].title);
-
-// ----------------------------------------------------------------

@@ -116,4 +116,12 @@ nav a.active {
   max-width: fit-content;
   background-color: blue;
 }
+
+.hejhej {
+  background-color: black;
+  border: 2px solid red;
+  border-radius: 100px;
+  height: 100px;
+  width: 100px;
+}
 /*# sourceMappingURL=style.css.map */
