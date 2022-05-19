@@ -20,7 +20,7 @@
     <main>
         <h1>Week</h1>
 
-        <form action="/index" method="post">
+        <form action="/index" method="post" id="eventPop">
             <label for="title">Title</label><br>
             <input type="text" name="title" id="title"><br>
             <label for="time">Time</label><br>
@@ -29,7 +29,7 @@
         </form>
 
 
-        <div id="testBox">
+        <div id="calendar-wrapper">
             <% locals.events.forEach(ele => { %>
 
             <div class="eventDiv">
@@ -65,15 +65,37 @@
         for (let i = 0; i < week.days.length; i++) {
             const days = week.days[i];
 
+            // Creating a wrapper for each day for future events
+            let dayWrapper = document.createElement("div");
+            dayWrapper.classList.add("day-wrapper");
+
             // Creating a bubble for each day
             let dayBubble = document.createElement("div");
-            dayBubble.classList.add("hejhej");
+            dayBubble.classList.add("day-bubble");
             dayBubble.textContent = days;
 
-            const box = document.getElementById("testBox");
-            box.appendChild(dayBubble);
+            const calendarWrapper = document.getElementById("calendar-wrapper");
+            calendarWrapper.appendChild(dayBubble);
+            calendarWrapper.appendChild(dayWrapper); 
+
+            let addEventButton = document.createElement("button");
+            addEventButton.textContent = "ADD EVENT";
+            addEventButton.onclick = eventPopUp;
+
+            dayBubble.appendChild(addEventButton);
+            
+            // Testing to see placement of day wrappers
+            dayWrapper.textContent = "This is the box where all the events for each day goes";
         }
 
+        function eventPopUp() {
+          let pop = document.getElementById("eventPop");
+          if (pop.style.display === "block") {
+            pop.style.display = "none";
+          } else {
+            pop.style.display = "block"
+          }
+        }
 
         async function deleteEvent(id) {
             console.log("delete test", id);
