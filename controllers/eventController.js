@@ -34,32 +34,15 @@ export default {
 
         console.log(toBeRemoved);
 
-        res.redirect('/');
+        res.redirect('/index');
         },
-    // updateEvent: function(id, newTitle, newDate) {
-    //    const id = Number(req.params.id);
-    //    const title = req.body.title;
-    //    const date = req.body.date;
+    editEvent: (req, res) => {
+        const id = Number(req.params.id);
+        const title = req.body.title;
+        const time = req.body.time;
 
-    //    if (!title || !date) {
-    //        const check = eventModel.updateEvent(id, title, date);
-    //        return;
-    //    }
+        const check = eventModel.editEvent(id, title, time);
 
-    //    console.log("Event Updated");
-
-    //    const check = eventModel.updateEvent(id, title, date);
-
-    //    if (!check) {
-    //        console.log("Event not updated");
-    //        return;
-    //    }
-
-    //    console.log("Event Updated");
-
-    //    res.redirect('/');
-    // }
-    // deleteEvent: (req, res) => {
-    //     console.log("testing");
-    // }
+        res.render('/index');
+    }
 }

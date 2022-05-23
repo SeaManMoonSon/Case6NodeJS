@@ -47,36 +47,22 @@ const eventModel = {
         this.saveEvent(filteredEvents);
 
         return true;
+    },
+    editEvent: function(id, newTitle, newTime) {
+            const allEvents = this.getAll();
+            const leg = allEvents.findIndex((event) => event.id === id);
 
-        // updateEvent: function(id, newTitle, newDate) {
-        //     const allEvents = this.getAll();
+            if(!leg < 0) {
+                return false;
+            }
 
-        //     if(!allEvents) {
-        //         return false;
-        //     }
+            allEvents[leg].title = newTitle;
+            allEvents[leg].time = newTime;
 
-        //     const idx = allEvents.findIndex((event) => event.id === id);
+            this.saveEvent(allEvents);
 
-        //     console.log("a");
-
-        //     if (idx < 0) {
-        //         return false;
-        //     }
-
-        //     console.log("b");
-
-        //     allEvents[idx].title = newTitle;
-        //     allEvents[idx].date = newDate;
-
-        //     console.log(allEvents);
-
-        //     this.saveEvents(allEvents);
-
-        //     console.log("c");
-
-        //     return true;
-        // }
-    }
+            return true;
+        }
 }
 
 export default eventModel;

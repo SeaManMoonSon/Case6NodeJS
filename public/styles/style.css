@@ -6,17 +6,17 @@
 }
 
 body {
-  background-color: cadetblue;
+  background-color: #264653;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 main {
   max-height: 100%;
+  text-align: center;
 }
 
-main img {
-  max-width: 480px;
-  width: 100%;
+h1 {
+  padding: 20px;
 }
 
 header {
@@ -28,96 +28,6 @@ header {
 footer {
   background-color: #1c1c1c;
   color: white;
-}
-
-ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-li {
-  list-style: none;
-  margin: 1rem;
-}
-
-nav a.active {
-  background-color: yellow;
-}
-
-.container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-}
-
-.wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  width: 100%;
-  background-color: deeppink;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.day-card {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  text-align: center;
-  width: 90%;
-  max-height: 100%;
-  background-color: #ffff;
-  border: 2px solid #1c1c1c;
-  margin: 5px;
-}
-
-.event-card {
-  width: 60%;
-  background-color: yellow;
-}
-
-.active {
-  background-color: gray;
-  height: 200px;
-}
-
-#calendar-wrapper {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  text-align: center;
-  background-color: gray;
-  border: 3px solid yellow;
-  color: white;
-  max-height: 100%;
-}
-
-.testing {
-  height: 200px;
-  width: 100%;
-  background-color: red;
 }
 
 .eventDiv {
@@ -142,11 +52,30 @@ nav a.active {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: black;
-  border: 2px solid red;
+  background-color: #2A9D8F;
   border-radius: 100px;
   height: 100px;
   width: 100px;
+}
+
+.day-wrapper {
+  max-width: 100%;
+}
+
+#calendar-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  color: white;
+  max-height: 100%;
 }
 
 #eventPop {

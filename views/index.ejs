@@ -2,154 +2,167 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My calendar</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My calendar</title>
 
-    <link rel="stylesheet" href="styles/style.css">
-    <!-- FIX FOR FAVICON.ICO -->
-    <link rel="shortcut icon" href="#">
+  <link rel="stylesheet" href="styles/style.css">
+  <!-- FIX FOR FAVICON.ICO -->
+  <link rel="shortcut icon" href="#">
 </head>
 
 <body>
-    <!-- Header -->
-    <%- include('partials/header.ejs') %>
+  <!-- Header -->
+  <%- include('partials/header.ejs') %>
+  <%- include('partials/nav.ejs') %>
 
 
-    <main>
-        <h1>Week</h1>
+  <main>
+    <button style="display: inline-block;">BACK</button>
+    <h1 style="display: inline-block;">Week</h1>
+    <button style="display: inline-block;">NEXT</button>
 
-        <form action="/index" method="post" id="eventPop">
-            <label for="title">Title</label><br>
-            <input type="text" name="title" id="title"><br>
-            <label for="time">Time</label><br>
-            <input type="time" name="time" id="time">Time<br>
-            <button type="submit">Create</button>
-        </form>
+    <form action="/index" method="post" id="eventPop">
+      <label for="title">Title</label><br>
+      <input type="text" name="title" id="title"><br>
+      <label for="time">Time</label><br>
+      <input type="time" name="time" id="time"><br>
+      <button type="submit">Create</button>
+    </form>
 
 
-        <div id="calendar-wrapper">
-            <% locals.events.forEach(ele => { %>
+    <div id="calendar-wrapper">
+      <% locals.events.forEach(ele => { %>
 
-            <div class="eventDiv">
-                <p class="event-title"><%- ele.title %></p>
-                <p class="event-time"><%- ele.time %></p>
-                <button class="edit-button" data-id="<%= ele.id %>">Edit</button>
-                <button onclick="deleteEvent(<%= ele.id %>)">Delete</button>
-            </div>
+      <div class="eventDiv">
+        <p class="event-title"><%- ele.title %></p>
+        <p class="event-time"><%- ele.time %></p>
+        <button class="edit-btn" data-id="<%= ele.id %>" id="<%= ele.id %>">Edit</button>
+        <button class="delete-btn" onclick="deleteEvent(<%= ele.id %>)">Delete</button>
+      </div>
 
-            <% }); %>
-        </div>
+      <% }); %>
+    </div>
 
-    </main>
+  </main>
 
-    <!-- Footer -->
-    <%- include('partials/footer.ejs') %>
+  <!-- Footer -->
+  <%- include('partials/footer.ejs') %>
 
-    <!-- <script>
+  <!-- <script>
         const form = document.querySelector("form");
         form.addEventListener("submit", (event) => {
             event.preventDefault();
         });
     </script> -->
 
-    <script>
+  <script>
+    // Creating array for every day in week
+    const week = {
+      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    };
 
-        // Creating array for every day in week
-        const week = {
-            days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    // Making a varibel for each day in the array
+    for (let i = 0; i < week.days.length; i++) {
+      const days = week.days[i];
+
+      // Creating a wrapper for each day for future events
+      let dayWrapper = document.createElement("div");
+      dayWrapper.classList.add("day-wrapper");
+
+      // Creating a bubble for each day
+      let dayBubble = document.createElement("div");
+      dayBubble.classList.add("day-bubble");
+      dayBubble.textContent = days;
+
+      const calendarWrapper = document.getElementById("calendar-wrapper");
+      calendarWrapper.appendChild(dayBubble);
+      calendarWrapper.appendChild(dayWrapper);
+
+      let addEventButton = document.createElement("button");
+      addEventButton.textContent = "ADD EVENT";
+      addEventButton.onclick = eventPopUp;
+
+      dayBubble.appendChild(addEventButton);
+
+      // Testing to see placement of day wrappers
+      dayWrapper.textContent =
+        "This is the box where all the events for each day goesThis is the box where all the events for each day goesThis is the box where all the events for each day goes";
+    }
+
+    function eventPopUp() {
+      let pop = document.getElementById("eventPop");
+      if (pop.style.display === "block") {
+        pop.style.display = "none";
+      } else {
+        pop.style.display = "block"
+      }
+      console.log(this.parentElement.textContent);
+    }
+
+    async function deleteEvent(id) {
+      console.log("delete test", id);
+      const response = await fetch(`/index/${id}`, {
+        method: "delete"
+      });
+
+      if (response.redirected) {
+        window.location.href = response.url;
+      }
+    }
+
+    async function editEvent(evt) {
+      // const id = Number(evt.target.dataset.id); // data-id -> dataset.id
+
+      const container = evt.target.parentElement;
+      const id = container.querySelector(".edit-btn").getAttribute("data-id");
+      const title = container.querySelector(".event-title");
+      const time = container.querySelector(".event-time");
+
+      // if not editable make them editable
+      if (!title.isContentEditable && !time.isContentEditable) {
+        title.contentEditable = true;
+        time.contentEditable = true;
+        // clicking the same button should save the changes
+        evt.target.innerText = "Save";
+      } else {
+        // Second time clicked it should save changes
+        // reset element to be non editable
+        title.contentEditable = false;
+        time.contentEditable = false;
+        evt.target.innerText = "Edit";
+        // Look at values of titleEl and qudate and submit new quote
+        const newEvent = {
+          title: title.innerText,
+          time: time.innerText,
         };
+        const response = await fetch(`/events/${id}`, {
+          method: "put",
+          body: JSON.stringify(newEvent),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-        // Making a varibel for each day in the array
-        for (let i = 0; i < week.days.length; i++) {
-            const days = week.days[i];
-
-            // Creating a wrapper for each day for future events
-            let dayWrapper = document.createElement("div");
-            dayWrapper.classList.add("day-wrapper");
-
-            // Creating a bubble for each day
-            let dayBubble = document.createElement("div");
-            dayBubble.classList.add("day-bubble");
-            dayBubble.textContent = days;
-
-            const calendarWrapper = document.getElementById("calendar-wrapper");
-            calendarWrapper.appendChild(dayBubble);
-            calendarWrapper.appendChild(dayWrapper); 
-
-            let addEventButton = document.createElement("button");
-            addEventButton.textContent = "ADD EVENT";
-            addEventButton.onclick = eventPopUp;
-
-            dayBubble.appendChild(addEventButton);
-            
-            // Testing to see placement of day wrappers
-            dayWrapper.textContent = "This is the box where all the events for each day goes";
-        }
-
-        function eventPopUp() {
-          let pop = document.getElementById("eventPop");
-          if (pop.style.display === "block") {
-            pop.style.display = "none";
-          } else {
-            pop.style.display = "block"
-          }
-        }
-
-        async function deleteEvent(id) {
-            console.log("delete test", id);
-            const response = await fetch(`/index/${id}`, {method: "delete"});
-
-            if (response.redirected) {
-                window.location.href = response.url;
-            }
-        }
-
-        async function editEvent(evt) {
-        // const id = Number(evt.target.dataset.id); // data-id -> dataset.id
-
-
-        const container = evt.target.parentElement;
-        const id = container.querySelector(".edit").getAttribute("data-id");
-        const titleEl = container.querySelector(".event-title");
-        const dateEl = container.querySelector(".event-date");
-        // if not editable make them editable
-        if (!titleEl.isContentEditable && !dateEl.isContentEditable) {
-          titleEl.contentEditable = true;
-          dateEl.contentEditable = true;
-          // clicking the same button should save the changes
-          evt.target.innerText = "Save";
-        } else {
-          // Second time clicked it should save changes
-          // reset element to be non editable
-          titleEl.contentEditable = false;
-          dateEl.contentEditable = false;
-          evt.target.innerText = "Edit";
-          // Look at values of titleEl and qudate and submit new quote
-          const newQuote = {
-            title: titleEl.innerText,
-            quote: qudate.innerText,
-          };
-          const response = await fetch(`/events/${id}`, {
-            method: "put",
-            body: JSON.stringify(newQuote),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-          
-          // Check if there is a redirect to follow the new url
-          if (response.redirected) {
-            window.location.href = response.url;
-          }
+        // Check if there is a redirect to follow the new url
+        if (response.redirected) {
+          window.location.href = response.url;
         }
       }
-      document
-        .querySelectorAll(".edit-button")
-        .forEach((btn) => (btn.onclick = editEvent));
-    </script>
+    }
+    document.querySelectorAll(".edit-btn").forEach((btn) => (btn.onclick = editEvent));
+
+
+// function that returns a random number between a min and max
+// function getRandomNumber(min, max) {
+    
+//   return Math.random() * (max - min) + min;
+    
+// }
+  </script>
 
 
 </body>
+
 </html>
