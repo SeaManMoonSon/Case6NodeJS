@@ -34,9 +34,6 @@ const eventModel = {
     },
     deleteEvent: function (id) {
         const allEvents = this.getAll();
-        // let newArray = allEvents.filter(function (element) {
-        //     return element.id !== id;
-        // });
 
         if(!allEvents) {
             return false;

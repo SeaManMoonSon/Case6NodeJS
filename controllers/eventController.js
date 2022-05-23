@@ -1,7 +1,4 @@
-import express from "express";
-import eventViews from "../views/eventViews.js";
 import eventModel from "../models/eventModel.js";
-import fs from "fs";
 
 
 export default {

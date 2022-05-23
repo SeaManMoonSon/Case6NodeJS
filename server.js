@@ -1,7 +1,5 @@
 // Dependencies
 import express from "express";
-
-import eventModel from "./models/eventModel.js";
 import eventController from "./controllers/eventController.js"
 
 
@@ -22,7 +20,7 @@ app.use(express.json());
 // app.get('/', eventController.getAll);
 app.get('/', (req, res) => {
     res.render('landing');
-})
+});
 
 app.put('/events/:id', eventController.editEvent);
 

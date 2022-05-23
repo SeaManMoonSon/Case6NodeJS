@@ -19,9 +19,14 @@
 
 
   <main>
-    <button style="display: inline-block;">BACK</button>
-    <h1 style="display: inline-block;">Week</h1>
-    <button style="display: inline-block;">NEXT</button>
+    <!-- <button style="display: inline-block;">BACK</button>
+    <h1 style="display: inline-block;">21</h1>
+    <button style="display: inline-block;">NEXT</button> -->
+    <h1>21</h1>
+    <nav>
+      <span id="previous">förra</span>
+      <span id="next">nästa</span>
+    </nav>
 
     <form action="/index" method="post" id="eventPop">
       <label for="title">Title</label><br>
@@ -33,7 +38,7 @@
 
 
     <div id="calendar-wrapper">
-      <% locals.events.forEach(ele => { %>
+      <% events.forEach(ele => { %>
 
       <div class="eventDiv">
         <p class="event-title"><%- ele.title %></p>
@@ -68,11 +73,11 @@
       const days = week.days[i];
 
       // Creating a wrapper for each day for future events
-      let dayWrapper = document.createElement("div");
+      const dayWrapper = document.createElement("div");
       dayWrapper.classList.add("day-wrapper");
 
       // Creating a bubble for each day
-      let dayBubble = document.createElement("div");
+      const dayBubble = document.createElement("div");
       dayBubble.classList.add("day-bubble");
       dayBubble.textContent = days;
 
@@ -80,7 +85,7 @@
       calendarWrapper.appendChild(dayBubble);
       calendarWrapper.appendChild(dayWrapper);
 
-      let addEventButton = document.createElement("button");
+      const addEventButton = document.createElement("button");
       addEventButton.textContent = "ADD EVENT";
       addEventButton.onclick = eventPopUp;
 
@@ -103,7 +108,7 @@
 
     async function deleteEvent(id) {
       console.log("delete test", id);
-      const response = await fetch(`/index/${id}`, {
+    const response = await fetch(`/index/${id}`, {
         method: "delete"
       });
 
@@ -154,12 +159,67 @@
     document.querySelectorAll(".edit-btn").forEach((btn) => (btn.onclick = editEvent));
 
 
-// function that returns a random number between a min and max
-// function getRandomNumber(min, max) {
-    
-//   return Math.random() * (max - min) + min;
-    
-// }
+
+    //  ------------------------ ANDERS VISAR Date() OSV -----------------------------
+    let date = new Date("2022-05-23");
+    console.log("date", date);
+
+    date.setDate(date.getDate() - 7);
+    console.log("date", date);
+
+    let yyyymmdd = date.toLocaleDateString();
+    console.log("yyyymmdd", yyyymmdd);
+
+    let dayOfWeek = date.getDay();
+    console.log(dayOfWeek);
+
+
+    // ANDERS FUNKTION
+    function getWeekDates(date) {
+      let d = new Date(date);
+      let dayOfWeek = d.getDay();
+      let preDays = -dayOfWeek;
+      let postDays = 7 + preDays;
+
+      let dates = [];
+      d.setDate(d.getDate() + preDays);
+      for (let i = preDays; i < postDays; i++) {
+        d.setDate(d.getDate() + 1);
+        let yyyymmdd = d.toLocaleDateString();
+        dates.push(yyyymmdd);
+      }
+
+      return dates;
+    }
+
+    let calendarDates = getWeekDates(date);
+    console.log(calendarDates);
+
+
+    const previous = document.getElementById("previous");
+    const next = document.getElementById("next");
+
+    previous.addEventListener("click", () => {
+      console.log("bak");
+
+      let currentFirst = document.querySelector("li");
+      console.log(currentFirst);
+
+      let nowMonday = currentFirst.innerText;
+      console.log(nowMonday);
+
+
+      let day = new Date(currentMonday);
+
+      // en vecka tidigare
+      day.setDate(day.getDate() - 7);
+      console.log("day...", day);
+
+
+      // ändra innehållet i ul elementet
+      calendarDates = getWeekDates(day);
+      console.log("calendarDates", calendarDates);
+    });
   </script>
 
 
