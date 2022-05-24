@@ -35,7 +35,7 @@ const eventModel = {
     deleteEvent: function (id) {
         const allEvents = this.getAll();
 
-        if(!allEvents) {
+        if (!allEvents) {
             return false;
         }
 
@@ -45,21 +45,21 @@ const eventModel = {
 
         return true;
     },
-    editEvent: function(id, newTitle, newTime) {
-            const allEvents = this.getAll();
-            const leg = allEvents.findIndex((event) => event.id === id);
+    editEvent: function (id, newTitle, newTime) {
+        const allEvents = this.getAll();
+        const leg = allEvents.findIndex((event) => event.id === id);
 
-            if(!leg < 0) {
-                return false;
-            }
-
-            allEvents[leg].title = newTitle;
-            allEvents[leg].time = newTime;
-
-            this.saveEvent(allEvents);
-
-            return true;
+        if (!leg < 0) {
+            return false;
         }
+
+        allEvents[leg].title = newTitle;
+        allEvents[leg].time = newTime;
+
+        this.saveEvent(allEvents);
+
+        return true;
+    }
 }
 
 export default eventModel;

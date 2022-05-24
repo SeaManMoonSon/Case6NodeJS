@@ -38,7 +38,7 @@
 
 
     <div id="calendar-wrapper">
-      <% events.forEach(ele => { %>
+      <!-- <% events.forEach(ele => { %>
 
       <div class="eventDiv">
         <p class="event-title"><%- ele.title %></p>
@@ -47,54 +47,118 @@
         <button class="delete-btn" onclick="deleteEvent(<%= ele.id %>)">Delete</button>
       </div>
 
-      <% }); %>
+      <% }); %> -->
     </div>
 
   </main>
 
   <!-- Footer -->
   <%- include('partials/footer.ejs') %>
-
-  <!-- <script>
-        const form = document.querySelector("form");
-        form.addEventListener("submit", (event) => {
-            event.preventDefault();
-        });
-    </script> -->
+  
 
   <script>
-    // Creating array for every day in week
-    const week = {
-      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    };
 
-    // Making a varibel for each day in the array
-    for (let i = 0; i < week.days.length; i++) {
-      const days = week.days[i];
+    let date = new Date();
+    // -7???
+    date.setDate(date.getDate() + 1);
 
-      // Creating a wrapper for each day for future events
-      const dayWrapper = document.createElement("div");
-      dayWrapper.classList.add("day-wrapper");
+    let dayOfWeek = date.getDay();
+    
 
-      // Creating a bubble for each day
-      const dayBubble = document.createElement("div");
-      dayBubble.classList.add("day-bubble");
-      dayBubble.textContent = days;
+    function weekDates(date) {
+      let day = new Date(date);
+      let dayOfWeek = day.getDay();
+      let weekBefore = -dayOfWeek;
+      let weekAfter = 7 + weekBefore;
+      let dates = [];
 
-      const calendarWrapper = document.getElementById("calendar-wrapper");
-      calendarWrapper.appendChild(dayBubble);
-      calendarWrapper.appendChild(dayWrapper);
+      day.setDate(day.getDate() + weekBefore);
+      
+      for (let i = weekBefore; i < weekAfter; i++) {
+        day.setDate(day.getDate() + 1);
+        let yearMonthDay = day.toLocaleDateString();
 
-      const addEventButton = document.createElement("button");
-      addEventButton.textContent = "ADD EVENT";
-      addEventButton.onclick = eventPopUp;
-
-      dayBubble.appendChild(addEventButton);
-
-      // Testing to see placement of day wrappers
-      dayWrapper.textContent =
-        "This is the box where all the events for each day goesThis is the box where all the events for each day goesThis is the box where all the events for each day goes";
+        dates.push(yearMonthDay);
+      }
+      return dates;
     }
+
+    let calendarDates = weekDates(date);
+    const calendarWrapper = document.getElementById("calendar-wrapper");
+    
+    function currentWeek(dates) {
+      calendarWrapper.innerText = "";
+
+      dates.forEach(ele => {
+        let li = document.createElement("li");
+        li.classList.add("list-item");
+        li.innerText = ele;
+        calendarWrapper.appendChild(li);
+      });
+    }
+
+    currentWeek(calendarDates);
+
+    const previous = document.getElementById("previous");
+    const next = document.getElementById("next");
+
+    previous.addEventListener("click", () => {
+      // console.log("gå bakåt");
+
+     let first = document.querySelector(".list-item");
+     let monday = first.innerText;
+     let day = new Date(monday);
+    //  Last week
+     day.setDate(day.getDate() - 7);
+     calendarDates = weekDates(day);
+     currentWeek(calendarDates);
+    });
+
+    next.addEventListener("click", () => {
+      // console.log("gå framåt");
+
+     let first = document.querySelector(".list-item");
+     let monday = first.innerText;
+     let day = new Date(monday);
+    //  Last week
+     day.setDate(day.getDate() + 7);
+     calendarDates = weekDates(day);
+     currentWeek(calendarDates);
+    });
+
+
+    // // Creating array for every day in week
+    // const week = {
+    //   days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    // };
+
+    // // Making a varibel for each day in the array
+    // for (let i = 0; i < week.days.length; i++) {
+    //   const days = week.days[i];
+
+    //   // Creating a wrapper for each day for future events
+    //   const dayWrapper = document.createElement("div");
+    //   dayWrapper.classList.add("day-wrapper");
+
+    //   // Creating a bubble for each day
+    //   const dayBubble = document.createElement("div");
+    //   dayBubble.classList.add("day-bubble");
+    //   dayBubble.textContent = days;
+
+    //   const calendarWrapper = document.getElementById("calendar");
+    //   calendarWrapper.appendChild(dayBubble);
+    //   calendarWrapper.appendChild(dayWrapper);
+
+    //   const addEventButton = document.createElement("button");
+    //   addEventButton.textContent = "ADD EVENT";
+    //   addEventButton.onclick = eventPopUp;
+
+    //   dayBubble.appendChild(addEventButton);
+
+    //   // Testing to see placement of day wrappers
+    //   dayWrapper.textContent =
+    //     "This is the box where all the events for each day goesThis is the box where all the events for each day goesThis is the box where all the events for each day goes";
+    // }
 
     function eventPopUp() {
       let pop = document.getElementById("eventPop");
@@ -158,68 +222,6 @@
     }
     document.querySelectorAll(".edit-btn").forEach((btn) => (btn.onclick = editEvent));
 
-
-
-    //  ------------------------ ANDERS VISAR Date() OSV -----------------------------
-    let date = new Date("2022-05-23");
-    console.log("date", date);
-
-    date.setDate(date.getDate() - 7);
-    console.log("date", date);
-
-    let yyyymmdd = date.toLocaleDateString();
-    console.log("yyyymmdd", yyyymmdd);
-
-    let dayOfWeek = date.getDay();
-    console.log(dayOfWeek);
-
-
-    // ANDERS FUNKTION
-    function getWeekDates(date) {
-      let d = new Date(date);
-      let dayOfWeek = d.getDay();
-      let preDays = -dayOfWeek;
-      let postDays = 7 + preDays;
-
-      let dates = [];
-      d.setDate(d.getDate() + preDays);
-      for (let i = preDays; i < postDays; i++) {
-        d.setDate(d.getDate() + 1);
-        let yyyymmdd = d.toLocaleDateString();
-        dates.push(yyyymmdd);
-      }
-
-      return dates;
-    }
-
-    let calendarDates = getWeekDates(date);
-    console.log(calendarDates);
-
-
-    const previous = document.getElementById("previous");
-    const next = document.getElementById("next");
-
-    previous.addEventListener("click", () => {
-      console.log("bak");
-
-      let currentFirst = document.querySelector("li");
-      console.log(currentFirst);
-
-      let nowMonday = currentFirst.innerText;
-      console.log(nowMonday);
-
-
-      let day = new Date(currentMonday);
-
-      // en vecka tidigare
-      day.setDate(day.getDate() - 7);
-      console.log("day...", day);
-
-
-      // ändra innehållet i ul elementet
-      calendarDates = getWeekDates(day);
-      console.log("calendarDates", calendarDates);
-    });
   </script>
 
 
