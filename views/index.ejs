@@ -24,7 +24,7 @@
     <h3 id="year">2022</h3>
 
     <h1 id="week">21</h1>
-    
+
     <nav>
       <span id="previous">förra</span>
       <span id="next">nästa</span>
@@ -36,23 +36,25 @@
       <label for="time">Time</label><br>
       <input type="time" name="time" id="time"><br>
       <button type="submit">Create</button>
+
+      <input type="date" name="date" id="date">
+
     </form>
 
     <div id="box">
       <% events.forEach(ele => { %>
 
-        <div class="eventDiv">
-          <p class="event-title"><%- ele.title %></p>
-          <p class="event-time"><%- ele.time %></p>
-          <button class="edit-btn" data-id="<%= ele.id %>" id="<%= ele.id %>">Edit</button>
-          <button class="delete-btn" onclick="deleteEvent(<%= ele.id %>)">Delete</button>
-        </div>
-  
-        <% }); %>
+      <div class="eventDiv">
+        <p class="event-title"><%- ele.title %></p>
+        <p class="event-time"><%- ele.time %></p>
+        <button class="edit-btn" data-id="<%= ele.id %>" id="<%= ele.id %>">Edit</button>
+        <button class="delete-btn" onclick="deleteEvent(<%= ele.id %>)">Delete</button>
+      </div>
+      <% }); %>
     </div>
 
     <div id="calendar-wrapper">
-      
+
     </div>
 
   </main>
@@ -66,13 +68,26 @@
     let dayOfWeek = date.getDay();
 
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-      "November", "December"
-    ];
+      "November", "December"];
     let monthElement = document.getElementById("month");
     let yearElement = document.getElementById("year");
     let weekElement = document.getElementById("week");
+    let savedEvents = [];
 
-    date.setDate(date.getDate() + 1);
+    let calendarDates = weekDates(date);
+
+    fetch("/calendar/api", {
+      method: "GET"
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(events) {
+      savedEvents = events;
+      currentWeek(calendarDates); 
+    });
+
+    date.setDate(date.getDate());
 
     function weekDates(date) {
       let day = new Date(date);
@@ -80,28 +95,28 @@
       let weekBefore = -dayOfWeek;
       let weekAfter = 7 + weekBefore;
       let dates = [];
+      
 
       day.setDate(day.getDate() + weekBefore);
 
       for (let i = weekBefore; i < weekAfter; i++) {
         day.setDate(day.getDate() + 1);
         let yearMonthDay = day.toLocaleDateString();
-        // let obj = {date: yearMonthDay, dd: "hej"}
+
         dates.push(yearMonthDay);
       }
+
+
       return dates;
     }
 
-    let calendarDates = weekDates(date);
+    
     const calendarWrapper = document.getElementById("calendar-wrapper");
 
     function currentWeek(dates) {
       calendarWrapper.innerText = "";
 
       dates.forEach(ele => {
-        let li = document.createElement("li");
-        li.classList.add("list-item");
-        li.innerText = ele;
 
         const dayWrapper = document.createElement("div");
         dayWrapper.classList.add("day-wrapper");
@@ -109,15 +124,59 @@
         const dayBubble = document.createElement("div");
         dayBubble.classList.add("day-bubble");
 
+        let dateSpan = document.createElement("span");
+        dateSpan.classList.add("date-span");
+         // -------------I WANT THIS TO CHANGE TO "MONDAY" ETC-----------
+        dateSpan.innerText = ele;
+
         const eventWrapper = document.createElement("div");
         eventWrapper.classList.add("event-wrapper");
-        eventWrapper.innerText = "JA MEN TJA HÄR TESTAR JAG FÄLTET DÄR EVENTS SKA LIGGA SEN, HOPPAS JAG";
+        // eventWrapper.innerText = "JA MEN TJA HÄR TESTAR JAG FÄLTET DÄR EVENTS SKA LIGGA SEN, HOPPAS JAG";
 
         const addEventButton = document.createElement("button");
         addEventButton.innerText = "ADD EVENT";
         addEventButton.onclick = eventPopUp;
 
-        dayBubble.appendChild(li);
+        const eventTitle = document.createElement("p");
+        eventTitle.classList.add("event-title");
+
+        const eventButtons = document.createElement("div");
+        eventButtons.classList.add("event-buttons");
+
+        const editButton = document.createElement("button");
+        editButton.innerText = "EDIT";
+        const deleteButton = document.createElement("button");
+
+        // deleteButton.addEventListener("click", () => {
+        //   let deleteThis =  event.target.parentElement.parentElement;
+        //   console.log(deleteThis);
+        //   deleteThis.remove();
+        //   });
+
+        deleteButton.innerText = "DELETE";
+
+        console.log(dateSpan.innerText);
+
+
+        let result = savedEvents.events.filter((e) => {
+          return e.date === ele;
+          
+        });
+
+        eventWrapper.appendChild(eventTitle);
+
+        if (result.length > 0) {
+          // eventinfo.innerText = result[0].title;
+          eventTitle.innerText = result[0].title + " " + result[0].time;
+          // eventinfo.appendChild(buttonsdiv);
+          eventWrapper.appendChild(eventButtons);
+        };
+
+        dateSpan.appendChild(eventWrapper);
+        calendarWrapper.appendChild(dateSpan);
+        eventButtons.appendChild(editButton);
+        eventButtons.appendChild(deleteButton);
+        dayBubble.appendChild(dateSpan);
         dayBubble.appendChild(addEventButton);
         dayWrapper.appendChild(dayBubble);
         dayWrapper.appendChild(eventWrapper);
@@ -125,15 +184,12 @@
       });
     }
 
-    currentWeek(calendarDates);
 
     const previous = document.getElementById("previous");
-    const next = document.getElementById("next");
 
     previous.addEventListener("click", () => {
-      // console.log("gå bakåt");
 
-      let first = document.querySelector(".list-item");
+      let first = document.querySelector(".date-span");
       let monday = first.innerText;
       let day = new Date(monday);
       //  Last week
@@ -145,10 +201,11 @@
       yearElement.innerText = day.getFullYear();
     });
 
-    next.addEventListener("click", () => {
-      // console.log("gå framåt");
+    const next = document.getElementById("next");
 
-      let first = document.querySelector(".list-item");
+    next.addEventListener("click", () => {
+
+      let first = document.querySelector(".date-span");
       let monday = first.innerText;
       let day = new Date(monday);
       //  Last week
@@ -160,40 +217,6 @@
       yearElement.innerText = day.getFullYear();
     });
 
-
-    // // Creating array for every day in week
-    // const week = {
-    //   days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    // };
-
-    // // Making a varibel for each day in the array
-    // for (let i = 0; i < week.days.length; i++) {
-    //   const days = week.days[i];
-
-    //   // Creating a wrapper for each day for future events
-    //   const dayWrapper = document.createElement("div");
-    //   dayWrapper.classList.add("day-wrapper");
-
-    //   // Creating a bubble for each day
-    //   const dayBubble = document.createElement("div");
-    //   dayBubble.classList.add("day-bubble");
-    //   dayBubble.textContent = days;
-
-    //   const calendarWrapper = document.getElementById("calendar");
-    //   calendarWrapper.appendChild(dayBubble);
-    //   calendarWrapper.appendChild(dayWrapper);
-
-    //   const addEventButton = document.createElement("button");
-    //   addEventButton.textContent = "ADD EVENT";
-    //   addEventButton.onclick = eventPopUp;
-
-    //   dayBubble.appendChild(addEventButton);
-
-    //   // Testing to see placement of day wrappers
-    //   dayWrapper.textContent =
-    //     "This is the box where all the events for each day goesThis is the box where all the events for each day goesThis is the box where all the events for each day goes";
-    // }
-
     function eventPopUp() {
       let pop = document.getElementById("eventPop");
       if (pop.style.display === "block") {
@@ -201,7 +224,7 @@
       } else {
         pop.style.display = "block"
       }
-      console.log(this.parentElement.textContent);
+      console.log(this.parentElement.innerText);
     }
 
     async function deleteEvent(id) {

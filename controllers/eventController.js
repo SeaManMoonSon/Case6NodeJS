@@ -5,11 +5,15 @@ export default {
     getAll: (req,res) => {
         res.render("index", { events: eventModel.getAll() });  
     },
+    getApi: (req,res) => {
+        res.json({ events: eventModel.getAll() });  
+    },
     createEvent: (req, res) => {
         const title = req.body.title;
         const time = req.body.time;
+        const date = req.body.date;
     
-        const check = eventModel.addEvent(title, time);
+        const check = eventModel.addEvent(title, time, date);
 
         if (!check) {
             res.render("404", { message: "Could not save" });
@@ -31,7 +35,7 @@ export default {
 
         console.log(toBeRemoved);
 
-        res.redirect('/index');
+        res.redirect('/calendar');
         },
     editEvent: (req, res) => {
         const id = Number(req.params.id);
@@ -40,6 +44,6 @@ export default {
 
         const check = eventModel.editEvent(id, title, time);
 
-        res.render('/index');
+        res.render('/calendar');
     }
 }

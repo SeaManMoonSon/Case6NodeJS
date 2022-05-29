@@ -17,15 +17,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Route request
-// app.get('/', eventController.getAll);
 app.get('/', (req, res) => {
+    res.render('landing');
+});
+app.get('/landing', (req, res) => {
     res.render('landing');
 });
 
 app.put('/events/:id', eventController.editEvent);
 
-app.get('/index', eventController.getAll);
-app.post('/index', eventController.createEvent);
+app.get('/calendar', eventController.getAll);
+app.post('/calendar', eventController.createEvent);
+
+app.get('/calendar/api', eventController.getApi);
 
 app.delete('/index/:id', eventController.deleteEvent);
 

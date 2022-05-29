@@ -16,14 +16,15 @@ const eventModel = {
             console.log("error", error);
         }
     },
-    addEvent: function (title, time) {
+    addEvent: function (title, time, date) {
         const allEvents = this.getAll();
         const lastEvent = allEvents[allEvents.length - 1];
         const newId = (lastEvent?.id || 0) + 1;
         const newEvent = {
             id: newId,
             title,
-            time
+            time,
+            date
         };
 
         allEvents.push(newEvent);

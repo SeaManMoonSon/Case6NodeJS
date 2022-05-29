@@ -57,6 +57,10 @@ ul {
     justify-content: space-evenly;
 }
 
+li {
+    list-style: none;
+}
+
 #getCalendarBtn {
     border-style: none;
     font-size: x-large;
@@ -93,6 +97,11 @@ a:visited {
     flex-direction: column;
     align-items: center;
     max-width: 100%;
+}
+
+.event-wrapper {
+    max-width: 100%;
+    background-color: red;
 }
 
 #calendar-wrapper {
