@@ -20,6 +20,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.render('landing');
 });
+
 app.get('/landing', (req, res) => {
     res.render('landing');
 });

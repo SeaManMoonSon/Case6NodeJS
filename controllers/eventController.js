@@ -44,6 +44,6 @@ export default {
 
         const check = eventModel.editEvent(id, title, time);
 
-        res.render('/calendar');
+        res.redirect('/calendar');
     }
 }

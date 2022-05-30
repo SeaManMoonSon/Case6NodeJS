@@ -30,6 +30,8 @@
       <i class="fa-solid fa-circle-arrow-right" id="next"></i>
     </nav>
 
+    <p>Click on a day-bubble to add an event!</p>
+
     <form action="/calendar" method="post" id="eventPop">
 
       <label for="title">Title</label><br>
@@ -44,6 +46,9 @@
       <button type="submit" id="submit">Add event</button>
     </form>
 
+    <div id="calendar-wrapper">
+
+    </div>
 
     <div id="box">
       <% events.forEach(ele => { %>
@@ -55,10 +60,6 @@
         <button class="delete-btn" onclick="deleteEvent(<%= ele.id %>)">Delete</button>
       </div>
       <% }); %>
-    </div>
-
-    <div id="calendar-wrapper">
-
     </div>
 
   </main>

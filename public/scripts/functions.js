@@ -29,7 +29,6 @@
       let weekBefore = -dayOfWeek;
       let weekAfter = 7 + weekBefore;
       let dates = [];
-      
 
       day.setDate(day.getDate() + weekBefore);
 
@@ -44,8 +43,12 @@
       return dates;
     }
 
-    
     const calendarWrapper = document.getElementById("calendar-wrapper");
+
+
+    calendarWrapper.addEventListener("click", function(event) {
+      console.log(event.target);
+    });
 
     function currentWeek(dates) {
       calendarWrapper.innerText = "";
@@ -70,13 +73,19 @@
         const eventTitle = document.createElement("p");
         eventTitle.classList.add("event-title");
 
-        const eventButtons = document.createElement("div");
-        eventButtons.classList.add("event-buttons");
+        const eventTime = document.createElement("p");
+        eventTime.classList.add("event-time");
 
-        const editButton = document.createElement("button");
-        editButton.innerText = "EDIT";
-        const deleteButton = document.createElement("button");
-        deleteButton.innerText = "DELETE";
+        // const eventButtons = document.createElement("div");
+        // eventButtons.classList.add("event-buttons");
+
+        // const editButton = document.createElement("button");
+        // editButton.innerText = "EDIT";
+        // editButton.setAttribute("data-id", ele);
+
+        // const deleteButton = document.createElement("button");
+        // deleteButton.setAttribute("data-id", ele);
+        // deleteButton.innerText = "DELETE";
 
         console.log(dateSpan.innerText);
 
@@ -87,16 +96,20 @@
         });
 
         eventWrapper.appendChild(eventTitle);
+        eventWrapper.appendChild(eventTime);
 
         if (result.length > 0) {
-          eventTitle.innerText = result[0].title + " " + result[0].time;
-          eventWrapper.appendChild(eventButtons);
+          eventWrapper.style = "display: inline"
+          eventWrapper.classList.add("event");
+          eventTitle.innerText = result[0].title;
+          eventTime.innerText = result[0].time;
+          // eventWrapper.appendChild(eventButtons);
         };
 
         dateSpan.appendChild(eventWrapper);
         calendarWrapper.appendChild(dateSpan);
-        eventButtons.appendChild(editButton);
-        eventButtons.appendChild(deleteButton);
+        // eventButtons.appendChild(editButton);
+        // eventButtons.appendChild(deleteButton);
         dayBubble.appendChild(dateSpan);
         dayWrapper.appendChild(dayBubble);
         dayWrapper.appendChild(eventWrapper);
@@ -159,7 +172,6 @@
     }
 
     async function editEvent(evt) {
-      // const id = Number(evt.target.dataset.id); // data-id -> dataset.id
 
       const container = evt.target.parentElement;
       const id = container.querySelector(".edit-btn").getAttribute("data-id");

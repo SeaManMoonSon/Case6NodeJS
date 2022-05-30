@@ -90,7 +90,6 @@ a:visited {
 .eventDiv {
   max-height: 100%;
   max-width: 100%;
-  background-color: blue;
 }
 
 .day-bubble {
@@ -111,6 +110,8 @@ a:visited {
   border-radius: 100px;
   height: 100px;
   width: 100px;
+  margin: 20px;
+  padding: 1rem;
 }
 
 .day-wrapper {
@@ -128,8 +129,19 @@ a:visited {
 }
 
 .event-wrapper {
-  max-width: 100%;
-  background-color: red;
+  display: none;
+  padding: 2rem;
+}
+
+.event {
+  border: 2px solid #2A9D8F;
+  border-radius: 10rem;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 #calendar-wrapper {
@@ -172,5 +184,21 @@ a:visited {
   padding: 6px;
   color: white;
   margin-top: 10px;
+}
+
+#box {
+  padding: 1rem;
+  border: 3px solid #2A9D8F;
+  border-radius: 1rem;
+  color: white;
+}
+
+#box button {
+  background: none;
+  border: 1px solid #2A9D8F;
+  border-radius: 1rem;
+  padding: 6px;
+  width: 50px;
+  color: white;
 }
 /*# sourceMappingURL=style.css.map */
