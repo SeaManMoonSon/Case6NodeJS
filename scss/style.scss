@@ -115,4 +115,26 @@ a:visited {
 
 #eventPop {
     display: none;
+    padding: 1rem;
+    border: 3px solid #2A9D8F;
+    border-radius: 1rem;
+    color: white;
+}
+
+#date,
+#title {
+    width: 180px;
+}
+
+.label {
+    margin-top: 10px;
+}
+
+#submit {
+    background-color: transparent;
+    border: 3px solid #2A9D8F;
+    border-radius: 1rem;
+    padding: 6px;
+    color: white;
+    margin-top: 10px;
 }
